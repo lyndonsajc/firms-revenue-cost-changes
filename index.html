@@ -1,7 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
+
 import { motion } from "framer-motion";
 
 export default function FirmsDecisionTool() {
@@ -147,30 +145,30 @@ export default function FirmsDecisionTool() {
         </motion.div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <Card className="rounded-3xl shadow-sm lg:col-span-4">
-            <CardContent className="space-y-6 p-6">
+          <div className="rounded-3xl shadow-sm lg:col-span-4">
+            <div className="space-y-6 p-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold">Controls</h2>
-                <Button variant="outline" onClick={reset}>Reset</Button>
+                <button onClick={reset} className="rounded-xl border px-4 py-2 text-sm font-semibold hover:bg-slate-100">Reset</button>
               </div>
 
               <Control title="Fixed Cost" value={`$${fixedCost}`} note="Shifts AC; AC minimum moves along MC" min="50" max="300" examples={["Rent or lease increases", "New machinery or equipment", "Insurance or licence fees", "Expansion of factory or office space"]}>
-                <Slider value={[fixedCost]} min={50} max={300} step={10} onValueChange={(v) => setFixedCost(v[0])} />
+                <input type="range" value={fixedCost} min={50} max={300} step={10} onChange={(e) => setFixedCost(Number(e.target.value))} className="w-full" />
               </Control>
 
               <Control title="Variable Cost per Unit" value={`$${variableCost}`} note="Shifts AC and MC" min="2" max="20" examples={["Higher wages", "Changes in raw material prices", "Energy or transport costs", "Supplier discounts or shortages"]}>
-                <Slider value={[variableCost]} min={2} max={20} step={1} onValueChange={(v) => setVariableCost(v[0])} />
+                <input type="range" value={variableCost} min={2} max={20} step={1} onChange={(e) => setVariableCost(Number(e.target.value))} className="w-full" />
               </Control>
 
               <Control title="Market Share" value={`${marketShare}%`} note="Shifts AR and MR" min="10" max="90" examples={["More effective advertising", "Better product quality", "Improved distribution", "Competitors losing customers"]}>
-                <Slider value={[marketShare]} min={10} max={90} step={5} onValueChange={(v) => setMarketShare(v[0])} />
+                <input type="range" value={marketShare} min={10} max={90} step={5} onChange={(e) => setMarketShare(Number(e.target.value))} className="w-full" />
               </Control>
 
               <Control title="Economies of Scale" value={`${economies}%`} note="Shifts AC and MC rightward/downward" min="0" max="80" examples={["Bulk buying discounts", "Specialisation of labour", "Use of advanced technology", "Managerial economies", "Cheaper loans due to firm size"]}>
-                <Slider value={[economies]} min={0} max={80} step={5} onValueChange={(v) => setEconomies(v[0])} />
+                <input type="range" value={economies} min={0} max={80} step={5} onChange={(e) => setEconomies(Number(e.target.value))} className="w-full" />
               </Control>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           <div className="space-y-6 lg:col-span-8">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -180,21 +178,21 @@ export default function FirmsDecisionTool() {
               <Metric label="Profit" value={`$${graph.totalProfit.toFixed(0)}`} highlight={graph.totalProfit >= 0 ? "good" : "bad"} />
             </div>
 
-            <Card className="rounded-3xl shadow-sm">
-              <CardContent className="p-6">
+            <div className="rounded-3xl shadow-sm">
+              <div className="p-6">
                 <h2 className="mb-1 text-xl font-bold">Firm's Cost and Revenue Diagram</h2>
                 <p className="mb-4 text-sm text-slate-600">
                   Profit maximisation occurs where MC = MR. As fixed cost changes, AC slides along the MC curve while its lowest point remains fixed to MC.
                 </p>
                 <MonopolyDiagram graph={graph} />
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <Card className="rounded-3xl shadow-sm lg:col-span-7">
-            <CardContent className="p-6">
+          <div className="rounded-3xl shadow-sm lg:col-span-7">
+            <div className="p-6">
               <h2 className="text-xl font-bold">Economics Explanation</h2>
               <div className="mt-4 grid gap-3 md:grid-cols-2">
                 {explanation.map((item, index) => (
@@ -206,11 +204,11 @@ export default function FirmsDecisionTool() {
               <div className="mt-5 rounded-2xl bg-slate-100 p-4 text-sm leading-6 text-slate-700">
                 <strong>Teaching link:</strong> The firm chooses output where MC = MR. The price is then found by moving vertically up to the AR curve. Profit per unit is the gap between AR and AC, while total profit is profit per unit multiplied by output.
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card className="rounded-3xl bg-slate-950 text-slate-100 shadow-sm lg:col-span-5">
-            <CardContent className="p-6">
+          <div className="rounded-3xl bg-slate-950 text-slate-100 shadow-sm lg:col-span-5">
+            <div className="p-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold">Live Console</h2>
                 <span className="rounded-full bg-slate-800 px-3 py-1 text-xs text-slate-300">updates instantly</span>
@@ -220,8 +218,8 @@ export default function FirmsDecisionTool() {
                   <p key={index}><span className="text-slate-500">{">"}</span> {line}</p>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -339,11 +337,11 @@ function Control({ title, value, note, children, min, max, examples = [] }) {
 function Metric({ label, value, highlight }) {
   const tone = highlight === "good" ? "bg-emerald-50 border-emerald-200" : highlight === "bad" ? "bg-rose-50 border-rose-200" : "bg-white";
   return (
-    <Card className={`rounded-3xl shadow-sm ${tone}`}>
-      <CardContent className="p-4">
+    <div className={`rounded-3xl shadow-sm ${tone}`}>
+      <div className="p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
         <p className="mt-2 text-2xl font-bold">{value}</p>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
